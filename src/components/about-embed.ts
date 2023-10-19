@@ -8,13 +8,13 @@ export function about(uptime: string, msg: Message): MessageEmbed {
     ];
     return new MessageEmbed()
         .setColor("#0099ff")
-        .setTitle("About Shimazu Legends")
+        .setTitle("Adolla Studios")
         .setThumbnail(msg.client.user?.displayAvatarURL() as string)
-        .addField(
-            "Status",
-            basicInfoRows
+        .addFields({
+            name: "Status",
+            value: basicInfoRows
                 .map(([label, value]) => `${label}: **${value}**`)
-                .join("\n")
-        )
+                .join("\n"),
+        })
         .setTimestamp();
 }

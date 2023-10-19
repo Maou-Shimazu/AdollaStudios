@@ -5,3 +5,4 @@ export * as about from "./about";
 export * as mute from "./moderation/mute";
 export * as av from "./av";
 export * as jumbo from "./jumbo";
+export * as announcement from "./announcement";

@@ -1,5 +1,4 @@
 import { Client, Message, MessageEmbed } from "discord.js";
-import humanizeDuration from "humanize-duration";
 
 export function info(
     message: Message,
@@ -13,18 +12,24 @@ export function info(
         ["Created", `${user?.createdAt.toDateString()}`],
         ["Mention", `<@${user?.id}>`],
     ];
-    return new MessageEmbed()
-        .setColor("#0099ff")
-        .setTitle("\n")
-        .setAuthor({
-            name: ((("User: " + user?.username) as string) +
-                "#" +
-                user?.discriminator) as string,
-            iconURL: user?.avatarURL() as string,
-        })
-        .addField(
-            "User information",
-            userInfo.map(([label, value]) => `${label}: ${value}`).join("\n")
-        )
-        .setTimestamp();
+
+    const uinfo = {
+        name: "User Information",
+        value: `${userInfo
+            .map(([label, value]) => `${label}: ${value}`)
+            .join("\n")}`,
+    };
+    return (
+        new MessageEmbed()
+            .setColor("#0099ff")
+            .setTitle("\n")
+            .setAuthor({
+                name: ((("User: " + user?.username) as string) +
+                    "#" +
+                    user?.discriminator) as string,
+                iconURL: user?.avatarURL() as string,
+            })
+            .addFields(uinfo)
+            .setTimestamp()
+    );
 }

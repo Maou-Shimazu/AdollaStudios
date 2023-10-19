@@ -1,7 +1,6 @@
 import { Client, TextChannel } from "discord.js";
 import { config } from "./config";
 import { log } from "./logger";
-import { status } from "./misc/webhook";
 import * as uptime from "./misc/uptime";
 import * as commandModules from "./commands";
 import * as componentModules from "./components";
@@ -20,29 +19,28 @@ client.once("ready", () => {
     client.user?.setPresence({
         activities: [
             {
-                name: "prefix: !s",
+                name: "/about",
                 type: "LISTENING",
-                url: "https://discord.com/api/oauth2/authorize?client_id=896585118787985478&permissions=8&scope=bot",
+                url: "https://discord.com/api/oauth2/authorize?client_id=1152994316084580465&permissions=8&scope=bot",
             },
         ],
         status: "online",
     });
-    status(true);
     uptime.startUptimeCounter();
 });
 
-client.on("guildMemberAdd", async (interaction) => {
-    const channel = await client.channels
-        .fetch("878110758867705976")
-        .then((channel) => channel as TextChannel);
-    if (!channel) return;
-    else
-        await (
-            await channel.send({
-                embeds: [components["embeds"].welcomeEmbed(interaction)],
-            })
-        ).react("👋");
-});
+// client.on("guildMemberAdd", async (interaction) => {
+//     const channel = await client.channels
+//         .fetch("878110758867705976")
+//         .then((channel) => channel as TextChannel);
+//     if (!channel) return;
+//     else
+//         await (
+//             await channel.send({
+//                 embeds: [components["embeds"].welcomeEmbed(interaction)],
+//             })
+//         ).react("👋");
+// });
 
 client.on("interactionCreate", async (interaction) => {
     if (!interaction.isCommand()) return;
@@ -54,14 +52,11 @@ client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (message.mentions.has(client.user!)) {
-        await message.reply(
-            "Hello esteemed, gentle-individual. The prefix for Shimazu's Guardian is `!s`."
-        );
-    }
-    if (message.content.toLocaleLowerCase().includes("nigga")) {
-        message.delete();
-    }
+    // if (message.mentions.has(client.user!)) {
+    //     await message.reply(
+    //         "Hello esteemed, gentle-individual. The prefix for Shimazu's Guardian is `!s`."
+    //     );
+    // }
 
     let args: string[];
     if (message.guild) {
@@ -96,7 +91,6 @@ client.on("messageCreate", async (message) => {
 process.on("SIGINT", () => {
     log.info("Caught interrupt signal");
     log.info("Bot is offline!");
-    status(false);
     client.destroy();
 });
 

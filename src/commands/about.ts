@@ -4,7 +4,7 @@ import { about } from "../components/about-embed";
 import { getCurrentUptime } from "../misc/uptime";
 import humanizeDuration from "humanize-duration";
 
-export const data = new SlashCommandBuilder().setName("about").setDescription("About Shimazu Legends!");
+export const data = new SlashCommandBuilder().setName("about").setDescription("Adolla Studios!");
 
 export async function execute(message: Message) {
     const uptime = getCurrentUptime();
