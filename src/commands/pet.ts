@@ -11,9 +11,9 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction: CommandInteraction) {
     const user: User | null = interaction.options.getUser("user");
     if (user)
-        interaction.reply(`https://pfpet.herokuapp.com/d/${user.id}.gif`);
+        interaction.reply(`https://pfpet.rubyowo.me/d/${user.id}.gif`);
     else {
         const { user } = interaction;
-        interaction.reply(`https://pfpet.herokuapp.com/d/${user.id}.gif`);
+        interaction.reply(`https://pfpet.rubyowo.me/d/${user.id}.gif`);
     }
 }
