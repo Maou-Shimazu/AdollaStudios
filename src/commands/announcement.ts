@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { CommandInteraction, GuildMember, TextChannel } from "discord.js";
 
-import { announcement } from "../components/announce";
+import { announcement } from "../components/announcement";
 
 export const data = new SlashCommandBuilder()
     .setName("announcement")
@@ -17,17 +17,27 @@ export const data = new SlashCommandBuilder()
             .setName("message")
             .setRequired(true)
             .setDescription("The message of the announcement.")
+    )
+    .addMentionableOption((role) =>
+        role
+            .setName("role")
+            .setRequired(false)
+            .setDescription("The role to ping.")
     );
 
 export async function execute(interaction: CommandInteraction) {
     const test = interaction.client.channels.cache.get(
         "1152999555286171829"
     ) as TextChannel;
-    const main = interaction.client.channels.cache.get(
-        "1158056507506704463"
-    ) as TextChannel;
+    // const main = interaction.client.channels.cache.get(
+    //     "1158056507506704463"
+    // ) as TextChannel;
 
     // const channel =  main == undefined ? test : main;
+    const mention = interaction.options.getMentionable("role", false);
+    if (mention) {  
+        test.send(`${mention}`);
+    }
     test.send({
         embeds: [
             announcement(
@@ -37,5 +47,6 @@ export async function execute(interaction: CommandInteraction) {
             ),
         ],
     });
+
     interaction.reply({ content: "Announcement sent!", ephemeral: true });
 }
