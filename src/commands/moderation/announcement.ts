@@ -1,7 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, GuildMember, TextChannel } from "discord.js";
-
-import { announcement } from "../components/announcement";
+import { CommandInteraction, GuildMember, TextChannel, Permissions } from "discord.js";
+import { announcement } from "../../components/announcement";
 
 export const data = new SlashCommandBuilder()
     .setName("announcement")
@@ -23,22 +22,29 @@ export const data = new SlashCommandBuilder()
             .setName("role")
             .setRequired(false)
             .setDescription("The role to ping.")
-    );
+    )
+    .addChannelOption((channel) =>
+        channel
+            .setName("channel")
+            .setRequired(false)
+            .setDescription("The channel to send the announcement to.")
+    ).setDefaultMemberPermissions(Permissions.FLAGS.ADMINISTRATOR);
 
 export async function execute(interaction: CommandInteraction) {
-    const test = interaction.client.channels.cache.get(
-        "1152999555286171829"
+    let send_channel = interaction.options.getChannel(
+        "channel",
+        false
     ) as TextChannel;
-    // const main = interaction.client.channels.cache.get(
-    //     "1158056507506704463"
-    // ) as TextChannel;
-
-    // const channel =  main == undefined ? test : main;
-    const mention = interaction.options.getMentionable("role", false);
-    if (mention) {  
-        test.send(`${mention}`);
+    if (!interaction.options.getChannel("channel", false)) {
+        send_channel = interaction.client.channels.cache.get(
+            "1188697099018186792"
+        ) as TextChannel;
     }
-    test.send({
+    const mention = interaction.options.getMentionable("role", false);
+    if (mention) {
+        send_channel.send(`${mention}`);
+    }
+    send_channel.send({
         embeds: [
             announcement(
                 interaction.member as GuildMember,
@@ -47,6 +53,5 @@ export async function execute(interaction: CommandInteraction) {
             ),
         ],
     });
-
     interaction.reply({ content: "Announcement sent!", ephemeral: true });
 }

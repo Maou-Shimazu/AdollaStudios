@@ -1,1 +1,0 @@
-export * as embeds from "./embeds";
