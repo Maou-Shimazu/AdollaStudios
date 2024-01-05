@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { CommandInteraction, GuildMember, TextChannel, Permissions } from "discord.js";
+import { CommandInteraction, GuildMember, TextChannel } from "discord.js";
 import { announcement } from "../../components/announcement";
+import { PermissionFlagsBits } from "discord-api-types/v10";
 
 export const data = new SlashCommandBuilder()
     .setName("announcement")
@@ -28,7 +29,7 @@ export const data = new SlashCommandBuilder()
             .setName("channel")
             .setRequired(false)
             .setDescription("The channel to send the announcement to.")
-    ).setDefaultMemberPermissions(Permissions.FLAGS.ADMINISTRATOR);
+    ).setDefaultMemberPermissions(PermissionFlagsBits.Administrator);
 
 export async function execute(interaction: CommandInteraction) {
     let send_channel = interaction.options.getChannel(
