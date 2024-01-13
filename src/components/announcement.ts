@@ -5,7 +5,7 @@ export function announcement(
     title: string,
     msg: string
 ): MessageEmbed {
-    msg = msg.replace(/\\n/g, "\n");
+    msg = msg.split("  ").join("\n");
     const fields = { name: title, value: msg };
     return new MessageEmbed()
         .setColor("#000000")
